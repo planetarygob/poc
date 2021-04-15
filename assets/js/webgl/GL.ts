@@ -2,7 +2,13 @@ import Scene from './core/Scene'
 import Renderer from './core/Renderer'
 import { 
     PerspectiveCamera,
-    Clock
+    Clock,
+    AmbientLight,
+    DirectionalLight,
+    PointsMaterial,
+    BufferGeometry,
+    BufferAttribute,
+    Points
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Bubble from './custom/Bubble'
@@ -48,7 +54,7 @@ class GL {
         this.scene = new Scene()
 
         this.camera = new PerspectiveCamera(75, this.size.width / this.size.height, 0.1, 1000)
-        this.camera.position.z = 5
+        this.camera.position.set(0, 10, -15)
 
         this.controls = new OrbitControls(this.camera, this.canvas)
         this.controls.enableDamping = true
@@ -80,12 +86,40 @@ class GL {
 
     addElements() {
         this.scene.add(this.camera)
+
+        const ambientLight = new AmbientLight(0xffffff, 0.8)
+        this.scene.add(ambientLight)
+
+        const directionalLight = new DirectionalLight(0xffffff, 1)
+        directionalLight.position.set(0, 5, -5)
+        this.scene.add(directionalLight)
+
+        this.addBackgroundParticles()
     }
 
     addEvents() {
         window.addEventListener('resize', this.resize.bind(this))
         window.addEventListener('click', this.scene.trigger)
     }  
+
+    addBackgroundParticles () {
+        const particlesMaterial = new PointsMaterial({
+            size: 0.02,
+            sizeAttenuation: true
+        })
+        const particlesGeometry = new BufferGeometry()
+        const count = 2000
+
+        const positions = new Float32Array(count * 3) // Multiply by 3 because each position is composed of 3 values (x, y, z)
+
+        for(let i = 0; i < count * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 100 // Math.random() - 0.5 to have a random value between -0.5 and +0.5
+        }
+
+        particlesGeometry.setAttribute('position', new BufferAttribute(positions, 3))
+        const particles = new Points(particlesGeometry, particlesMaterial)
+        this.scene.add(particles)
+    }
     
     resize() {
         this.size.width = window.innerWidth;

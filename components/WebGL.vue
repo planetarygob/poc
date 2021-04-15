@@ -12,7 +12,6 @@ export default {
         }
     },
     mounted() {
-        console.log('webGL Mounted', );
         const gl = GL.getInstance()
     },
     methods: {

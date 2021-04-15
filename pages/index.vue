@@ -27,12 +27,57 @@
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                   </svg>
                 </span>
-                
+
                 <p class="ml-2">
                     <NuxtLink
                         to="/models/import"
                         class="text-blue-400 hover:text-blue-600">
                         Import des modèles des designers
+                    </NuxtLink>
+                </p>
+              </li>
+              <!-- <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/models/animation"
+                        class="text-blue-400 hover:text-blue-600">
+                        Lancer l'animation du modèle
+                    </NuxtLink>
+                </p>
+              </li>
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/models/flotation"
+                        class="text-blue-400 hover:text-blue-600">
+                        Effet de flottaison sur les modèles
+                    </NuxtLink>
+                </p>
+              </li> -->
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/texts-buttons"
+                        class="text-blue-400 hover:text-blue-600">
+                        Textes par dessus canvas
                     </NuxtLink>
                 </p>
               </li>
@@ -59,7 +104,7 @@
                 
                 <p class="ml-2">
                     <NuxtLink
-                        to="/models/animation"
+                        to="/models/beginning-animation"
                         class="text-blue-400 hover:text-blue-600">
                         Test animation départ + placement des différents modèles
                     </NuxtLink>

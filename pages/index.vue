@@ -1,78 +1,123 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        pocs
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+    <!--
+  Welcome to Tailwind Play, the official Tailwind CSS playground!
+
+  Everything here works just like it does when you're running Tailwind locally
+  with a real build pipeline. You can customize your config file, use features
+  like `@apply`, or even add third-party plugins.
+
+  Feel free to play with this example if you're just learning, or trash it and
+  start from scratch if you know enough to be dangerous. Have fun!
+-->
+<div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+  <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+    <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+    <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+      <div class="max-w-md mx-auto">
+        <div class="flex justify-center">
+          <h1 class="font-bold text-4xl">POCS</h1>
+        </div>
+        <div class="divide-y divide-gray-200">
+          <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+            <p>Liste des différents POCS réalisés:</p>
+            <ul class="list-disc space-y-2">
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/models/import"
+                        class="text-blue-400 hover:text-blue-600">
+                        Import des modèles des designers
+                    </NuxtLink>
+                </p>
+              </li>
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/models/animation"
+                        class="text-blue-400 hover:text-blue-600">
+                        Test animation départ + placement des différents modèles
+                    </NuxtLink>
+                </p>
+              </li>
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/models/events"
+                        class="text-blue-400 hover:text-blue-600">
+                        Pouvoir cliquer sur les modèles et déplacer la caméra
+                    </NuxtLink>
+                </p>
+              </li>
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/models/highlight"
+                        class="text-blue-400 hover:text-blue-600">
+                        Mettre en surbrillance un objet au click
+                    </NuxtLink>
+                </p>
+              </li>
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/bubbles"
+                        class="text-blue-400 hover:text-blue-600">
+                        Faire apparaitre nos bulles au click sur les modèles et pouvoir les explorer.
+                    </NuxtLink>
+                </p>
+              </li>
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <p class="ml-2 font-bold">
+                    <NuxtLink
+                        to="/all"
+                        class="text-blue-400 hover:text-blue-600">
+                        Tous les POCS réunis
+                    </NuxtLink>
+                </p>
+              </li>
+            </ul>
+          </div>
+          <div class="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
+            <p>
+              <a href="https://teama-webgl.slite.com/api/s/note/BfjbquT41iDh4oe4xYgbyS/POCS-documentation" class="text-black-400 hover:text-black-800"> Lire la documentation &rarr; </a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
 </template>
-
-<script>
-export default {}
-</script>
-
-<style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>

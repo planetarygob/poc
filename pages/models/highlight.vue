@@ -2,7 +2,7 @@
     <WebGL />
 </template>
 
-<script lang="ts">
+<script>
 
 import WebGL from '../../components/WebGL.vue'
 import GL from '../../assets/js/webgl/GL'
@@ -15,16 +15,16 @@ export default {
         WebGL
     },
     data: () => ({
-        gl: null as unknown as GL,
+        gl: GL,
         selectedObjects: []
     }),
 
     mounted() {
-        const gl = GL.getInstance()
+        this.gl = GL.getInstance()
         const gltfLoader = new GLTFLoader()
 
         const themeLight = new THREE.PointLight('#ffffff', 3, 8)
-        gl.scene.add(themeLight)
+        this.gl.scene.add(themeLight)
 
         gltfLoader.load('/models/sun_mode_v2.gltf', (gltf) => {
             const modelToImport = gltf.scene.children[0]
@@ -41,12 +41,12 @@ export default {
 
             modelToImport.addEventListener('click', (event) => {
                 this.addSelectedObject(event.target)
-                gl.outlinePass.selectedObjects = this.selectedObjects;
+                this.gl.outlinePass.selectedObjects = this.selectedObjects;
             })
 
             themeLight.position.set(modelToImport.position.x, modelToImport.position.y + 2, modelToImport.position.z)
-            gl.scene.add(modelToImport)
-            gl.interactionManager.add(modelToImport);
+            this.gl.scene.add(modelToImport)
+            this.gl.interactionManager.add(modelToImport);
         })
     },
 

@@ -19,6 +19,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+import Proton from 'three.proton.js';
 
 
 interface Size {
@@ -40,6 +41,7 @@ class GL {
     interactionManager: InteractionManager
     composer: EffectComposer
     outlinePass: OutlinePass
+    proton: Proton
 
     constructor() {
         this.stats = new Stats()
@@ -79,6 +81,8 @@ class GL {
 
         // allow click without raycaster
         this.interactionManager = new InteractionManager(this.renderer, this.camera, this.renderer.domElement);
+
+        this.proton = new Proton()
         
         // POC highlight: post processing
         this.composer = new EffectComposer(this.renderer);
@@ -170,6 +174,7 @@ class GL {
     render() {
         this.controls.update()
         this.interactionManager.update()
+        this.proton.update()
         this.renderer.render(this.scene, this.camera)
         this.composer.render();
     }

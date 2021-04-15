@@ -15,7 +15,8 @@
     "mitt": "^2.1.0",
     "nuxt": "^2.15.3",
     "stats.js": "^0.17.0",
-    "three": "^0.127.0"
+    "three": "^0.127.0",
+    "three.interactive": "^1.1.0"
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.3",

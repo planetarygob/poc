@@ -8,11 +8,17 @@ import {
     PointsMaterial,
     BufferGeometry,
     BufferAttribute,
-    Points
+    Points,
+    Vector2
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import Bubble from './custom/Bubble'
 import Stats from 'stats.js'
+import { InteractionManager } from "three.interactive"
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 
 
 interface Size {
@@ -31,6 +37,9 @@ class GL {
     controls: OrbitControls
     clock: Clock
     size: Size
+    interactionManager: InteractionManager
+    composer: EffectComposer
+    outlinePass: OutlinePass
 
     constructor() {
         this.stats = new Stats()
@@ -67,7 +76,23 @@ class GL {
             this.size.height
         )
         this.renderer.render(this.scene, this.camera)
+
+        // allow click without raycaster
+        this.interactionManager = new InteractionManager(this.renderer, this.camera, this.renderer.domElement);
         
+        // POC highlight: post processing
+        this.composer = new EffectComposer(this.renderer);
+
+        const renderPass = new RenderPass(this.scene, this.camera);
+        this.composer.addPass(renderPass);
+
+        this.outlinePass = new OutlinePass(new Vector2(window.innerWidth, window.innerHeight ), this.scene, this.camera);
+        this.composer.addPass(this.outlinePass);
+
+        const effectFXAA = new ShaderPass(FXAAShader);
+        effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
+        this.composer.addPass(effectFXAA);
+
         this.addElements()
         this.addEvents()
 
@@ -144,8 +169,9 @@ class GL {
 
     render() {
         this.controls.update()
-
+        this.interactionManager.update()
         this.renderer.render(this.scene, this.camera)
+        this.composer.render();
     }
 }
 

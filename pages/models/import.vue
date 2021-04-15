@@ -26,7 +26,7 @@ export default {
         const themeLight = new THREE.PointLight('#ffffff', 3, 8)
         gl.scene.add(themeLight)
 
-        gltfLoader.load('/models/sun_mode_v2.gltf', (gltf) => {
+        gltfLoader.load('/models/planet_hippie_v3.gltf', (gltf) => {
             const modelToImport = gltf.scene.children[0]
             modelToImport.position.set(0, 1, 0)
             modelToImport.scale.set(0.02, 0.02, 0.02)

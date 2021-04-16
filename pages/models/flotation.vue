@@ -34,6 +34,25 @@ export default {
             themeLight.position.set(modelToImport.position.x, modelToImport.position.y + 2, modelToImport.position.z)
             this.gl.scene.add(modelToImport)
         })
+
+        gltfLoader.load('/models/bubble_skirt_v1.gltf', (gltf) => {
+            const modelToImport = gltf.scene.children[0]
+            this.gl.model2 = modelToImport
+            modelToImport.position.set(5, 1, 0)
+            modelToImport.scale.set(0.008, 0.008, 0.008)
+            themeLight.position.set(modelToImport.position.x, modelToImport.position.y + 2, modelToImport.position.z)
+
+            modelToImport.addEventListener('mouseover', () => {
+                document.body.style.cursor = 'pointer';
+            })
+
+            modelToImport.addEventListener('mouseout', () => {
+                document.body.style.cursor = 'default';
+            })
+
+            this.gl.scene.add(modelToImport)
+            this.gl.interactionManager.add(modelToImport);
+        })
     },
 
     methods: {

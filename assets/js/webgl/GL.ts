@@ -47,6 +47,7 @@ class GL {
     proton: Proton
     mixer: AnimationMixer
     model: Object3D
+    model2: Object3D
 
     constructor() {
         this.stats = new Stats()
@@ -188,6 +189,11 @@ class GL {
         if (this.model) {
             const modelAngle = elapsedTime * 2
             this.model.position.y = Math.sin(modelAngle) / 6
+        }
+
+        if (this.model2) {
+            const modelAngle = elapsedTime * 4
+            this.model2.position.y = Math.sin(modelAngle) / 6
         }
 
         if (this.mixer) {

@@ -9,7 +9,8 @@ import {
     BufferGeometry,
     BufferAttribute,
     Points,
-    Vector2
+    Vector2,
+    AnimationMixer
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Stats from 'stats.js'
@@ -20,6 +21,8 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import Proton from 'three.proton.js';
+
+let previousTime = 0
 
 
 interface Size {
@@ -42,6 +45,7 @@ class GL {
     composer: EffectComposer
     outlinePass: OutlinePass
     proton: Proton
+    mixer: AnimationMixer
 
     constructor() {
         this.stats = new Stats()
@@ -175,6 +179,14 @@ class GL {
         this.controls.update()
         this.interactionManager.update()
         this.proton.update()
+
+        const elapsedTime = this.clock.getElapsedTime()
+        const deltaTime = elapsedTime - previousTime
+        previousTime = elapsedTime
+
+        if (this.mixer) {
+            this.mixer.update(deltaTime)
+        }
         this.renderer.render(this.scene, this.camera)
         this.composer.render();
     }

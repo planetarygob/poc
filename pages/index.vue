@@ -36,7 +36,7 @@
                     </NuxtLink>
                 </p>
               </li>
-              <!-- <li class="flex items-start">
+              <li class="flex items-start">
                 <span class="h-6 flex items-center sm:h-7">
                   <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -51,7 +51,7 @@
                     </NuxtLink>
                 </p>
               </li>
-              <li class="flex items-start">
+              <!-- <li class="flex items-start">
                 <span class="h-6 flex items-center sm:h-7">
                   <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -153,11 +153,10 @@
                 </p>
               </li>
             </ul>
+            <p></p>
           </div>
           <div class="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
-            <p>
-              <a href="https://teama-webgl.slite.com/api/s/note/BfjbquT41iDh4oe4xYgbyS/POCS-documentation" class="text-black-400 hover:text-black-800"> Lire la documentation &rarr; </a>
-            </p>
+            <p>!! Si l'écran est blanc juste après le click sur le POC, il faut refresh la page !!</p>
           </div>
         </div>
       </div>

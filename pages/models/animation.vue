@@ -20,21 +20,24 @@ export default {
         }
     },
     mounted() {
-        const gl = GL.getInstance()
+        this.gl = GL.getInstance()
         const gltfLoader = new GLTFLoader()
 
         const themeLight = new THREE.PointLight('#ffffff', 3, 8)
-        gl.scene.add(themeLight)
+        this.gl.scene.add(themeLight)
 
         gltfLoader.load('/models/sun_mode_v2--animation.gltf', (gltf) => {
-            console.log('gltf.scene', gltf.scene);
+            this.gl.mixer = new THREE.AnimationMixer(gltf.scene)
+            const animation = this.gl.mixer.clipAction(gltf.animations[0])
+
+            animation.play()
+
             const modelToImport = gltf.scene.children[0]
-            console.log('modelToImport', modelToImport);
             modelToImport.position.set(0, 1, 0)
             modelToImport.scale.set(0.02, 0.02, 0.02)
             modelToImport.rotation.y = Math.PI
             themeLight.position.set(modelToImport.position.x, modelToImport.position.y + 2, modelToImport.position.z)
-            gl.scene.add(modelToImport)
+            this.gl.scene.add(modelToImport)
         })
     },
     methods: {

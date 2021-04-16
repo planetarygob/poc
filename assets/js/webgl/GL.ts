@@ -10,7 +10,11 @@ import {
     BufferAttribute,
     Points,
     Vector2,
-    AnimationMixer
+    AnimationMixer,
+    WebGLCubeRenderTarget,
+    RGBFormat,
+    LinearMipmapLinearFilter,
+    CubeCamera
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Stats from 'stats.js'
@@ -48,6 +52,10 @@ class GL {
     mixer: AnimationMixer
     model: Object3D
     model2: Object3D
+    sphereCamera: any
+    hdrCubeRenderTarget: any
+    hdrEquirect: any
+    cubeRenderTarget: any
 
     constructor() {
         this.stats = new Stats()
@@ -102,6 +110,10 @@ class GL {
         const effectFXAA = new ShaderPass(FXAAShader);
         effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
         this.composer.addPass(effectFXAA);
+
+        this.cubeRenderTarget = new WebGLCubeRenderTarget( 5, { format: RGBFormat, generateMipmaps: true, minFilter: LinearMipmapLinearFilter } )
+        this.sphereCamera = new CubeCamera( 1, 30, this.cubeRenderTarget )
+        this.scene.add( this.sphereCamera )
 
         this.addElements()
         this.addEvents()
@@ -166,6 +178,31 @@ class GL {
         this.camera.updateProjectionMatrix()
     }
 
+    generateTexture() {
+        const canvas = document.createElement("canvas") as HTMLCanvasElement
+        canvas.width = 2
+        canvas.height = 2
+      
+        const context = canvas.getContext("2d") as CanvasRenderingContext2D
+        context.fillStyle = "white"
+        context.fillRect(0, 1, 2, 1)
+      
+        return canvas
+    }
+
+    createLights() {
+        const ambientLight = new AmbientLight(0xaa54f0, 1)
+      
+        const directionalLight1 = new DirectionalLight(0xffffff, 1)
+        directionalLight1.position.set(-2, 2, 5)
+      
+        const directionalLight2 = new DirectionalLight(0xfff000, 1)
+        directionalLight2.position.set(-2, 4, 4)
+        directionalLight2.castShadow = true
+      
+        this.scene.add(ambientLight, directionalLight1, directionalLight2)
+    }
+
     // ---------------- LIFECYCLE
 
     animate() {
@@ -201,6 +238,7 @@ class GL {
         }
         this.renderer.render(this.scene, this.camera)
         this.composer.render();
+        this.sphereCamera.update( this.renderer, this.scene )
     }
 }
 

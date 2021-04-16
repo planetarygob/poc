@@ -46,6 +46,7 @@ class GL {
     outlinePass: OutlinePass
     proton: Proton
     mixer: AnimationMixer
+    model: Object3D
 
     constructor() {
         this.stats = new Stats()
@@ -183,6 +184,11 @@ class GL {
         const elapsedTime = this.clock.getElapsedTime()
         const deltaTime = elapsedTime - previousTime
         previousTime = elapsedTime
+
+        if (this.model) {
+            const modelAngle = elapsedTime * 2
+            this.model.position.y = Math.sin(modelAngle) / 6
+        }
 
         if (this.mixer) {
             this.mixer.update(deltaTime)

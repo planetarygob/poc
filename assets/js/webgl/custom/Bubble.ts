@@ -18,7 +18,7 @@ class Bubble extends Object3D {
     ) {
         super()
 
-        EventBusManager.getInstance().emitter.on('foo', (e: any) => console.log('foo', e))
+        EventBusManager.getInstance().emitter.on('gl:update', (e: any) => this.update(e.elapsedTime))
 
         this.userData = {
             speed: 0.2,

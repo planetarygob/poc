@@ -1,5 +1,5 @@
 <template>
-    <!--
+<!--
   Welcome to Tailwind Play, the official Tailwind CSS playground!
 
   Everything here works just like it does when you're running Tailwind locally
@@ -19,8 +19,8 @@
         </div>
         <div class="divide-y divide-gray-200">
           <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-            <p>Liste des différents POCS réalisés:</p>
             <ul class="list-disc space-y-2">
+              <p>Modèle</p>
               <li class="flex items-start">
                 <span class="h-6 flex items-center sm:h-7">
                   <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
@@ -66,6 +66,7 @@
                     </NuxtLink>
                 </p>
               </li>
+              <p>UI / UX</p>
               <li class="flex items-start">
                 <span class="h-6 flex items-center sm:h-7">
                   <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
@@ -149,6 +150,63 @@
                         to="/all"
                         class="text-blue-400 hover:text-blue-600">
                         Tous les POCS réunis
+                    </NuxtLink>
+                </p>
+              </li>
+              <p>Bulle</p>
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/bubble/morphing"
+                        class="text-blue-400 hover:text-blue-600">
+                        Morphing - Custom vertex shader
+                    </NuxtLink>
+                </p>
+              </li>
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/bubble/background"
+                        class="text-blue-400 hover:text-blue-600">
+                        Background - Follows camera movements
+                    </NuxtLink>
+                </p>
+              </li>
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/bubble/rendertarget"
+                        class="text-blue-400 hover:text-blue-600">
+                        RenderTarget Texture - Use a snapshot of scene from CubicCamera as texture
+                    </NuxtLink>
+                </p>
+              </li>
+              <li class="flex items-start">
+                <span class="h-6 flex items-center sm:h-7">
+                  <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <p class="ml-2">
+                    <NuxtLink
+                        to="/bubble/pmrem"
+                        class="text-blue-400 hover:text-blue-600">
+                        Bubble Texture & effect - Use PMREM, Lights & Gradient Texture
                     </NuxtLink>
                 </p>
               </li>

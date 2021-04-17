@@ -8,7 +8,12 @@ import WebGL from '../../components/WebGL.vue'
 import GL from '../../assets/js/webgl/GL'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import { RoughnessMipmapper } from 'three/examples/jsm/utils/RoughnessMipmapper.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 
 export default {
     components: {
@@ -20,22 +25,33 @@ export default {
         }
     },
     mounted() {
-        const gl = GL.getInstance()
-        const gltfLoader = new GLTFLoader()
+        this.gl = GL.getInstance()
 
-        const themeLight = new THREE.PointLight('#ffffff', 3, 8)
-        gl.scene.add(themeLight)
+        this.gl.renderer.setPixelRatio( window.devicePixelRatio );
+        this.gl.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.gl.renderer.toneMappingExposure = 1;
+        this.gl.renderer.outputEncoding = THREE.sRGBEncoding;
 
-        gltfLoader.load('/models/planet_hippie_v3.gltf', (gltf) => {
-            const modelToImport = gltf.scene.children[0]
-            modelToImport.position.set(0, 1, 0)
-            modelToImport.scale.set(0.02, 0.02, 0.02)
-            themeLight.position.set(modelToImport.position.x, modelToImport.position.y + 2, modelToImport.position.z)
-            gl.scene.add(modelToImport)
-        })
+        const environment = new RoomEnvironment();
+        const pmremGenerator = new THREE.PMREMGenerator( this.gl.renderer );
+
+        this.gl.scene.environment = pmremGenerator.fromScene( environment ).texture;
+
+        const ktx2Loader = new KTX2Loader()
+            .setTranscoderPath( 'js/libs/basis/' )
+            .detectSupport( this.gl.renderer );
+
+        let self = this
+
+        const loader = new GLTFLoader().setPath( '/models/' );
+        loader.setKTX2Loader( ktx2Loader );
+        loader.setMeshoptDecoder( MeshoptDecoder );
+        loader.load('planet_skirt_v2--animation--chara.glb', function (gltf) {
+            gltf.scene.scale.set(0.05, 0.05, 0.05)
+            self.gl.scene.add(gltf.scene);
+            self.gl.render();
+        } );
     },
-    methods: {
-    }
 }
 </script>
 

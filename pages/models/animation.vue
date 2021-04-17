@@ -26,13 +26,13 @@ export default {
         const themeLight = new THREE.PointLight('#ffffff', 3, 8)
         this.gl.scene.add(themeLight)
 
-        gltfLoader.load('/models/sun_mode_v2--animation.gltf', (gltf) => {
+        gltfLoader.load('/models/planet_skirt_v2--animation--chara.glb', (gltf) => {
             this.gl.mixer = new THREE.AnimationMixer(gltf.scene)
             const animation = this.gl.mixer.clipAction(gltf.animations[0])
 
             animation.play()
 
-            const modelToImport = gltf.scene.children[0]
+            const modelToImport = gltf.scene
             modelToImport.position.set(0, 1, 0)
             modelToImport.scale.set(0.02, 0.02, 0.02)
             modelToImport.rotation.y = Math.PI

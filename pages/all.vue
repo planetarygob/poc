@@ -1,5 +1,10 @@
 <template>
-    <WebGL />
+    <div class="relative">
+        <div class="container justify-center text-center p-4 min-w-full absolute text-white bg-black-500 mx-auto">
+            <h1 class="font-extrabold text-md">PRESS ESCAPE TO RETURN</h1>
+        </div>
+        <WebGL />
+    </div>
 </template>
 
 <script>
@@ -40,6 +45,8 @@ export default {
         this.emitter = new Proton.Emitter();
 
         this.gl.camera.position.set(0, 15, -35)
+
+        this.gl.proton = new Proton()
 
         this.initProton()
 
@@ -233,8 +240,8 @@ export default {
                 bubble.model.position.set(bubble.position.x, bubble.position.y, bubble.position.z)
 
                 bubble.model.addEventListener('click', this.bubbleClicked.bind(event, bubble))
-                bubble.model.addEventListener('mouseover', this.bubbleHovered.bind(event, theme));
-                bubble.model.addEventListener('mouseout', this.bubbleMouseOut.bind(event, theme));
+                bubble.model.addEventListener('mouseover', this.bubbleHovered.bind(event, bubble));
+                bubble.model.addEventListener('mouseout', this.bubbleMouseOut.bind(event, bubble));
 
                 this.gl.scene.add(bubble.model)
                 this.gl.interactionManager.add(bubble.model);

@@ -19,11 +19,10 @@ export default {
     components: {
         WebGL
     },
-    data() {
-        return {
-            gl: null as unknown as GL
-        }
-    },
+    data: () => ({
+        gl: null as unknown as GL
+    }),
+
     mounted() {
         this.gl = GL.getInstance()
 
@@ -46,7 +45,7 @@ export default {
         const loader = new GLTFLoader().setPath( '/models/' );
         loader.setKTX2Loader( ktx2Loader );
         loader.setMeshoptDecoder( MeshoptDecoder );
-        loader.load('planet_skirt_v2--animation--chara.glb', function (gltf) {
+        loader.load('planet_hippie_v3.gltf', function (gltf) {
             gltf.scene.scale.set(0.05, 0.05, 0.05)
             self.gl.scene.add(gltf.scene);
             self.gl.render();

@@ -27,19 +27,13 @@ export default {
     components: {
         WebGL
     },
-    data() {
-        return {
-            gl: null as unknown as GL
-        }
-    },
+
+    data: () => ({
+        gl: null as unknown as GL
+    }),
+
     mounted() {
         this.gl = GL.getInstance()
-
-        let context = this.gl.canvas.getContext('2d')
-        if (context) {
-            context.font = '48px'
-            context.fillText('Hello world', 10, 50);
-        }
 
         const gltfLoader = new GLTFLoader()
 

@@ -18,15 +18,13 @@ import {
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Stats from 'stats.js'
-import { InteractionManager } from "three.interactive"
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import Proton from 'three.proton.js';
+import EventBusManager from '../managers/EventBusManager'
+import CustomInteractionManager from '../managers/CustomInteractionManager'
+import HighlightManager from '../managers/HighlightManager'
 
 let previousTime = 0
+let elapsedTime = 0
 
 
 interface Size {
@@ -45,9 +43,8 @@ class GL {
     controls: OrbitControls
     clock: Clock
     size: Size
-    interactionManager: InteractionManager
-    composer: EffectComposer
-    outlinePass: OutlinePass
+    interactionManager: CustomInteractionManager
+    highlightManager: HighlightManager
     proton: Proton
     mixer: AnimationMixer
     model: Object3D
@@ -58,6 +55,9 @@ class GL {
     cubeRenderTarget: any
 
     constructor() {
+
+        let self = this 
+
         this.stats = new Stats()
         this.stats.showPanel(0)
         document.body.appendChild(this.stats.dom)
@@ -82,9 +82,13 @@ class GL {
         this.camera.position.set(0, 10, -15)
 
         this.controls = new OrbitControls(this.camera, this.canvas)
-        this.controls.enableDamping = true
 
         this.clock = new Clock()
+
+        EventBusManager.getInstance().emitter.on('gl:needClock', function needClock (e: any) {
+            self.clock = new Clock()
+            EventBusManager.getInstance().emitter.off('gl:needClock', needClock)
+        })
 
         this.renderer = new Renderer(
             { canvas: this.canvas }, 
@@ -93,27 +97,19 @@ class GL {
         )
         this.renderer.render(this.scene, this.camera)
 
-        // allow click without raycaster
-        this.interactionManager = new InteractionManager(this.renderer, this.camera, this.renderer.domElement);
+        this.interactionManager = new CustomInteractionManager(this.renderer, this.camera)
 
-        this.proton = new Proton()
-        
-        // POC highlight: post processing
-        this.composer = new EffectComposer(this.renderer);
+        this.highlightManager = new HighlightManager(this.renderer, this.scene, this.camera)
 
-        const renderPass = new RenderPass(this.scene, this.camera);
-        this.composer.addPass(renderPass);
+        // EventBusManager.getInstance().emitter.on('gl:needProton', (e: any) => {
+        //     this.proton = new Proton()
+        // })
 
-        this.outlinePass = new OutlinePass(new Vector2(window.innerWidth, window.innerHeight ), this.scene, this.camera);
-        this.composer.addPass(this.outlinePass);
-
-        const effectFXAA = new ShaderPass(FXAAShader);
-        effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
-        this.composer.addPass(effectFXAA);
-
-        this.cubeRenderTarget = new WebGLCubeRenderTarget( 5, { format: RGBFormat, generateMipmaps: true, minFilter: LinearMipmapLinearFilter } )
-        this.sphereCamera = new CubeCamera( 1, 30, this.cubeRenderTarget )
-        this.scene.add( this.sphereCamera )
+        EventBusManager.getInstance().emitter.on('gl:needSphereCamera', (e: any) => {
+            this.cubeRenderTarget = new WebGLCubeRenderTarget(5, {format: RGBFormat, generateMipmaps: true, minFilter: LinearMipmapLinearFilter})
+            this.sphereCamera = new CubeCamera(1, 30, this.cubeRenderTarget)
+            this.scene.add(this.sphereCamera)
+        })
 
         this.addElements()
         this.addEvents()
@@ -215,30 +211,49 @@ class GL {
     }
 
     render() {
-        this.controls.update()
-        this.interactionManager.update()
-        this.proton.update()
+        // controls update useless?
+        // this.controls.update()
 
-        const elapsedTime = this.clock.getElapsedTime()
-        const deltaTime = elapsedTime - previousTime
-        previousTime = elapsedTime
-
-        if (this.model) {
-            const modelAngle = elapsedTime * 2
-            this.model.position.y = Math.sin(modelAngle) / 6
+        // interactionManager couteux
+        if (this.interactionManager) {
+            this.interactionManager.update()
+        }
+        
+        if (this.proton) {
+            // console.log('proton update');
+            this.proton.update()
         }
 
-        if (this.model2) {
-            const modelAngle = elapsedTime * 4
-            this.model2.position.y = Math.sin(modelAngle) / 6
+        if (this.clock) {
+            elapsedTime = this.clock.getElapsedTime()
+        }
+
+        if (this.model && this.model2) {
+            const modelAngle = elapsedTime * 2
+            this.model.position.y = Math.sin(modelAngle) / 6
+    
+            const modelAngle2 = elapsedTime * 4
+            this.model2.position.y = Math.sin(modelAngle2) / 6
         }
 
         if (this.mixer) {
+            let deltaTime = 0
+            deltaTime = elapsedTime - previousTime
+            previousTime = elapsedTime
+
             this.mixer.update(deltaTime)
         }
+
         this.renderer.render(this.scene, this.camera)
-        this.composer.render();
-        this.sphereCamera.update( this.renderer, this.scene )
+
+        if (this.highlightManager) {
+            this.highlightManager.render();
+        }
+        
+        if (this.sphereCamera) {
+            this.sphereCamera.update(this.renderer, this.scene)
+        }
+
     }
 }
 

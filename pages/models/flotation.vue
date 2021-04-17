@@ -14,11 +14,11 @@ export default {
     components: {
         WebGL
     },
-    data() {
-        return {
-            gl: null as unknown as GL
-        }
-    },
+
+    data: () => ({
+        gl: null as unknown as GL
+    }),
+
     mounted() {
         this.gl = GL.getInstance()
         const gltfLoader = new GLTFLoader()

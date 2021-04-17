@@ -34,6 +34,8 @@ export default {
 
         this.gl.camera.position.set(0, 15, -35)
 
+        this.gl.proton = new Proton()
+
         this.initProton()
 
         let self = this

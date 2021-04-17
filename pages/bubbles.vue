@@ -35,6 +35,8 @@ export default {
         this.themeLight = new THREE.PointLight('#ffffff', 3, 8)
         this.gl.scene.add(this.themeLight)
 
+        this.gl.proton = new Proton()
+
         this.emitter = new Proton.Emitter();
 
         this.gl.camera.position.set(0, 15, -35)

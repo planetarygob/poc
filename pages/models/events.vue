@@ -27,12 +27,11 @@ export default {
         this.gl = GL.getInstance()
         const gltfLoader = new GLTFLoader()
 
-        const themeLight = new THREE.PointLight('#ffffff', 3, 8)
-        this.gl.scene.add(themeLight)
-
         this.emitter = new Proton.Emitter();
 
         this.gl.camera.position.set(0, 15, -35)
+
+        this.gl.proton = new Proton()
 
         this.initProton()
 
@@ -43,7 +42,6 @@ export default {
                 theme.model = gltf.scene.children[0].clone()
                 theme.model.position.set(0, 0, 0)
                 theme.model.scale.set(0.04, 0.04, 0.04)
-                theme.light = themeLight
                 theme.model.visible = false
 
                 let bingBangTimeline = gsap.timeline()

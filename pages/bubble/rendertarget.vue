@@ -24,27 +24,22 @@ import GL from '../../assets/js/webgl/GL'
 import { themes } from '../../assets/js/datas/themes.js'
 import Sky from '../../assets/js/webgl/custom/Sky'
 import SkyTexture from '~/assets/js/webgl/textures/SkyTexture'
+import EventBusManager from '../../assets/js/managers/EventBusManager'
 
 export default {
     components: {
         WebGL
     },
+
     data: () => ({
-        gl: GL,
-        selectedObjects: [],
-        emitter: null,
-        bubbleModel: null,
-        themeSelected: null,
-        bubbleSelected: null,
-        themeLight: null,
-        themes: themes,
-        canClick: true,
-        canMouseOver: true
+        gl: GL
     }),
 
     mounted() {
         this.gl = GL.getInstance()
         this.gl.scene.background = new SkyTexture( this.gl.canvas.width, this.gl.canvas.height )
+
+        EventBusManager.getInstance().emitter.emit('gl:needSphereCamera')
 
         const sky = new Sky( this.gl.canvas.width, this.gl.canvas.height )
         this.gl.scene.add( sky.mesh )

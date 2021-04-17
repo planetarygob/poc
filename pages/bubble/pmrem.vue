@@ -29,16 +29,7 @@ export default {
         WebGL
     },
     data: () => ({
-        gl: GL,
-        selectedObjects: [],
-        emitter: null,
-        bubbleModel: null,
-        themeSelected: null,
-        bubbleSelected: null,
-        themeLight: null,
-        themes: themes,
-        canClick: true,
-        canMouseOver: true
+        gl: GL
     }),
 
     mounted() {

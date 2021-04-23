@@ -44,8 +44,6 @@ export default {
 
             this.animation.setLoop(THREE.LoopOnce, 2)
 
-            this.scenery.addEventListener('click', this.modelClicked.bind(this), false)
-
             this.scenery.position.set(0, 0, 0)
             this.scenery.scale.set(0.02, 0.02, 0.02)
             this.scenery.rotation.y = Math.PI
@@ -60,7 +58,11 @@ export default {
             })
 
             if (this.scissors) {
+                // NOTE : We indicate that scissors are an interactive object
+                this.addSelectedObject(this.scissors)
+                this.gl.highlightManager.outlinePass.selectedObjects = this.selectedObjects
                 this.initialPosition = this.scissors.position
+
                 this.scissors.addEventListener('mouseover', () => {
                     document.body.style.cursor = 'pointer';
                 })
@@ -68,18 +70,34 @@ export default {
                     document.body.style.cursor = 'default';
                 })
 
+                // NOTE : We take the scissors
                 this.scissors.addEventListener('click', (e: any) => {
-                    this.addSelectedObject(e.target)
                     this.scissors.rotation.x = 45
-                    this.gl.highlightManager.outlinePass.selectedObjects = this.selectedObjects;
 
+                    // NOTE : Now scissors should follow the mouse
                     window.addEventListener('mousemove', (e: any) => {
-                        const mouse = e.clientX / this.gl.canvas.width - 0.5
-                        this.scissors.position.x -= mouse * 2
-                        this.scissors.position.z += mouse
 
+                        e.preventDefault()
+
+                        const mousex = (e.clientX / this.gl.canvas.width) * 10 - 1
+                        const mousey = - (e.clientY / this.gl.canvas.height) * 10 + 1
+                        const vector = new Vector3(mousex,mousey,.5)
+
+                        vector.unproject(this.gl.camera)
+
+                        const dir = vector.sub( this.gl.camera.position ).normalize()
+                        const distance = - this.gl.camera.position.z / dir.z
+                        const pos = this.gl.camera.position.clone().add( dir.multiplyScalar( distance ) )
+
+	                    this.scissors.position.copy(pos);
+                        // this.scissors.position.x -= mouse * 2 * 10
+                        // this.scissors.position.z += mouse * 10
+
+                        // NOTE : Are we near the skirt ?
                         if ((this.scissors.position.x <= -18) && (this.scissors.position.x >= -28)) {
                             console.log("jupe")
+                            this.cutSkirtAnimation()
+
                             console.log(this.initialPosition.x, this.initialPosition.z)
                             this.scissors.position.x = this.initialPosition.x
                             this.scissors.position.z = this.initialPosition.z
@@ -96,21 +114,23 @@ export default {
             themeLight.position.set(this.scenery.position.x, this.scenery.position.y + 2, this.scenery.position.z)
             this.gl.scene.add(themeLight)
         },
-        modelClicked() {
-            this.animation.play()
-            this.customInteractionManager.remove(this.scenery)
-            this.scenery.removeEventListener('click', this.modelClicked)
-            this.animation.clampWhenFinished
-            
-            this.gl.mixer.addEventListener('finished', () => {
-                // cleanMethods on the doc doesnt work...
-                this.gl.mixer = null
-            });
-        },
         addSelectedObject(object: any) {
             this.selectedObjects = [];
             this.selectedObjects.push(object);
         },
+        cutSkirtAnimation() {
+            this.animation.play()
+            this.customInteractionManager.remove(this.scenery)
+            this.scenery.removeEventListener('click', this.cutSkirtAnimation)
+            this.animation.clampWhenFinished
+            
+            if (this.gl.mixer) {
+                this.gl.mixer.addEventListener('finished', () => {
+                // NOTE : cleanMethods on the doc doesnt work...
+                    this.gl.mixer = null
+                })
+            }
+        }
     }
 }
 </script>

@@ -14,7 +14,8 @@ import {
     WebGLCubeRenderTarget,
     RGBFormat,
     LinearMipmapLinearFilter,
-    CubeCamera
+    CubeCamera,
+    Object3D
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Stats from 'stats.js'
@@ -46,9 +47,9 @@ class GL {
     interactionManager: CustomInteractionManager
     highlightManager: HighlightManager
     proton: Proton
-    mixer: AnimationMixer
-    model: Object3D
-    model2: Object3D
+    mixer?: AnimationMixer | null
+    model?: Object3D
+    model2?: Object3D
     sphereCamera: any
     hdrCubeRenderTarget: any
     hdrEquirect: any

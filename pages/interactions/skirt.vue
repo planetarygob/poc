@@ -29,27 +29,25 @@ export default {
 
     mounted () {
         this.gl = GL.getInstance()
-        const gltfLoader = new GLTFLoader()
-
+        
         const axesHelper = new THREE.AxesHelper( 5 );
         this.gl.scene.add( axesHelper );
 
+        const gltfLoader = new GLTFLoader()
         gltfLoader.load('/models/planet_skirt_v2--animation--chara.glb', (gltf) => {
             this.scenery = gltf.scene
+            this.scenery.position.set(0, 0, 0)
+            this.scenery.scale.set(0.02, 0.02, 0.02)
+            this.gl.scene.add(this.scenery)
+
             this.customInteractionManager = CustomInteractionManager.getInstance(this.gl.renderer, this.gl.camera)
             this.customInteractionManager.add(this.scenery)
 
             this.gl.mixer = new THREE.AnimationMixer(this.scenery)
             this.animation = this.gl.mixer.clipAction(gltf.animations[0])
-
             this.animation.setLoop(THREE.LoopOnce, 2)
 
-            this.scenery.position.set(0, 0, 0)
-            this.scenery.scale.set(0.02, 0.02, 0.02)
-            this.scenery.rotation.y = Math.PI
-
             this.createLight()
-            this.gl.scene.add(this.scenery)
 
             this.scenery.traverse((child: any) => {
                 if (child.name === 'scissors') {
@@ -79,26 +77,16 @@ export default {
 
                         e.preventDefault()
 
-                        const mousex = (e.clientX / this.gl.canvas.width) * 10 - 1
-                        const mousey = - (e.clientY / this.gl.canvas.height) * 10 + 1
-                        const vector = new Vector3(mousex,mousey,.5)
-
-                        vector.unproject(this.gl.camera)
-
-                        const dir = vector.sub( this.gl.camera.position ).normalize()
-                        const distance = - this.gl.camera.position.z / dir.z
-                        const pos = this.gl.camera.position.clone().add( dir.multiplyScalar( distance ) )
-
-	                    this.scissors.position.copy(pos);
-                        // this.scissors.position.x -= mouse * 2 * 10
-                        // this.scissors.position.z += mouse * 10
+                        const mousex = (e.clientX / this.gl.canvas.width) * 2 - 1
+                        const mousey = - (e.clientY / this.gl.canvas.height) * 2 + 1
+                        
+                        this.scissors.position.x -= mousex * 2 * 10
+                        this.scissors.position.z += mousex * 10
 
                         // NOTE : Are we near the skirt ?
                         if ((this.scissors.position.x <= -18) && (this.scissors.position.x >= -28)) {
-                            console.log("jupe")
                             this.cutSkirtAnimation()
 
-                            console.log(this.initialPosition.x, this.initialPosition.z)
                             this.scissors.position.x = this.initialPosition.x
                             this.scissors.position.z = this.initialPosition.z
                         }

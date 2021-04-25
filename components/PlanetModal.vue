@@ -38,7 +38,7 @@ import EventBusManager from '~/assets/js/managers/EventBusManager'
 export default {
     data() {
         return {
-            isDisplayed: true,
+            isDisplayed: false,
             planetContent: {
                 title : "Jupe",
                 paragraphs: [

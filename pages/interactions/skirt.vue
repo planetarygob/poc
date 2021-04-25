@@ -107,10 +107,9 @@ export default {
             this.selectedObjects = [];
             this.selectedObjects.push(object);
         },
-        cutSkirtAnimation() {
+        playAnimation() {
             this.animation.play()
             this.animation.clampWhenFinished = true
-            this.scissors.dispose()
         },
         skirtHovered() {
             this.isAboveSkirt = true
@@ -123,7 +122,7 @@ export default {
         onDragEnd() {
             if (this.isAboveSkirt) {
                 // EventBusManager.getInstance().emitter.emit("ui:display_planet_modal")
-                this.cutSkirtAnimation()
+                this.playAnimation()
             }
             this.skirt.removeEventListener('mouseover', this.skirtHovered)
         },

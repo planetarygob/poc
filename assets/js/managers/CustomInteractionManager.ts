@@ -9,6 +9,7 @@ class CustomInteractionManager {
         this.interactionManager = new InteractionManager(renderer, camera, renderer.domElement)
     }
 
+    // TODO : Do not need to pass renderer & camera since they're passed on constructor
     public static getInstance (renderer: WebGLRenderer, camera: PerspectiveCamera): CustomInteractionManager {
         if (!CustomInteractionManager.instance) {
             CustomInteractionManager.instance = new CustomInteractionManager(renderer, camera);
@@ -31,6 +32,10 @@ class CustomInteractionManager {
 
     public dispose () {
         this.interactionManager.dispose()
+    }
+
+    public checkIntersection (object: Object3D|Mesh) {
+        this.interactionManager.checkIntersection(object)
     }
 }
 

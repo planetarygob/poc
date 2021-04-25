@@ -18,6 +18,7 @@ import {
     Object3D
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
 import Stats from 'stats.js'
 import Proton from 'three.proton.js';
 import EventBusManager from '../managers/EventBusManager'
@@ -41,7 +42,8 @@ class GL {
     scene: Scene 
     renderer: Renderer 
     camera: PerspectiveCamera
-    controls: OrbitControls
+    orbitControls: OrbitControls
+    dragControls: DragControls
     clock: Clock
     size: Size
     interactionManager: CustomInteractionManager
@@ -54,10 +56,13 @@ class GL {
     hdrCubeRenderTarget: any
     hdrEquirect: any
     cubeRenderTarget: any
+    objects: any
 
     constructor() {
 
         let self = this 
+
+        this.objects = []
 
         this.stats = new Stats()
         this.stats.showPanel(0)
@@ -80,9 +85,9 @@ class GL {
         this.scene = new Scene()
 
         this.camera = new PerspectiveCamera(75, this.size.width / this.size.height, 0.1, 1000)
-        this.camera.position.set(0, 10, -15)
-
-        this.controls = new OrbitControls(this.camera, this.canvas)
+        this.camera.position.set(0, 2.5, -3.5)
+        
+        // this.controls.enabled = false
 
         this.clock = new Clock()
 
@@ -102,14 +107,15 @@ class GL {
 
         this.highlightManager = new HighlightManager(this.renderer, this.scene, this.camera)
 
-        // EventBusManager.getInstance().emitter.on('gl:needProton', (e: any) => {
-        //     this.proton = new Proton()
-        // })
+        this.orbitControls = new OrbitControls(this.camera, this.canvas)
+        this.dragControls = new DragControls( this.objects, this.camera, this.renderer.domElement )
 
-        EventBusManager.getInstance().emitter.on('gl:needSphereCamera', (e: any) => {
-            this.cubeRenderTarget = new WebGLCubeRenderTarget(5, {format: RGBFormat, generateMipmaps: true, minFilter: LinearMipmapLinearFilter})
-            this.sphereCamera = new CubeCamera(1, 30, this.cubeRenderTarget)
-            this.scene.add(this.sphereCamera)
+        this.dragControls.addEventListener( 'dragstart', (e: any) => {
+            this.orbitControls.enabled = false
+        })
+
+        this.dragControls.addEventListener( 'dragend', (e: any) => {
+            this.orbitControls.enabled = true
         })
 
         this.addElements()

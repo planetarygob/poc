@@ -42,11 +42,11 @@ class HighlightManager {
         this.composer.removePass(this.outlinePass)
         this.composer.removePass(this.shaderPass)
         this.composer.removePass(this.renderPass)
-        this.composer = null
+        // this.composer = null
         this.outlinePass.dispose()
         this.shaderPass.material.dispose()
-        this.shaderPass = null
-        this.renderPass = null
+        // this.shaderPass = null
+        // this.renderPass = null
     }
 }
 

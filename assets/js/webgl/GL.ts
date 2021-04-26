@@ -104,7 +104,6 @@ class GL {
         this.renderer.render(this.scene, this.camera)
 
         this.interactionManager = new CustomInteractionManager(this.renderer, this.camera)
-
         this.highlightManager = new HighlightManager(this.renderer, this.scene, this.camera)
 
         this.orbitControls = new OrbitControls(this.camera, this.canvas)

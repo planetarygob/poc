@@ -29,28 +29,23 @@ export default {
 
     mounted () {
         this.gl = GL.getInstance()
-        
-        const axesHelper = new AxesHelper( 5 )
-        this.gl.scene.add( axesHelper )
-        
 
         const gltfLoader = new GLTFLoader()
+
         gltfLoader.load('https://florianblandin.fr/assets/scenery_planet_hippie.glb', (gltf) => {
             this.scenery = gltf.scene
-
             this.scenery.rotation.set(0, Math.PI, 0)
             this.scenery.position.set(0, 0, 0)
             this.scenery.scale.set(0.02, 0.02, 0.02)
-
             this.gl.scene.add(this.scenery)
-
-            this.gl.mixer = new AnimationMixer(this.scenery)
-            this.animation = this.gl.mixer.clipAction(gltf.animations[0])
-
-            // NOTE :  Why do we need to specify number of repetitions ?
-            this.animation.setLoop(LoopOnce, 1)
-
             this.createLight()
+
+            // _____________________________________________________________
+
+            this.gl.mixer = new AnimationMixer(this.scenery) // x
+            this.animation = this.gl.mixer.clipAction(gltf.animations[0]) // x
+            // NOTE :  Why do we need to specify number of repetitions ?
+            this.animation.setLoop(LoopOnce, 1) // x 
 
             // NOTE : Maybe we should dynamise the string depending on the planet we're on, adding a key tool & a key target in the scenery object ?
             this.scenery.traverse((child: any) => {
@@ -60,9 +55,9 @@ export default {
                 if (child.name === 'gun') {
                     this.target = child
                 }
-            })
+            }) // x
 
-            if (this.tool) {
+            if (this.tool && this.target) {
                 // NOTE : We indicate that scissors are an interactive & draggable object$
                 this.gl.dragControls.transformGroup = true
                 this.gl.objects.push(this.tool) // Draggable
@@ -81,6 +76,8 @@ export default {
 
                 this.gl.interactionManager.add(this.tool)
                 this.gl.interactionManager.add(this.target)
+            } else {
+                console.error("Tool or Target undefined : ", this.tool, this.target)
             }
         }, 
         (xhr) => {
